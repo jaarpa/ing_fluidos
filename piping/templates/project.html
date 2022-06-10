@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% trans "You selected" %} {{ object.fluid }}
+{% trans "at a mean temperature of" %} {{ object.get_T_C }} 
+{% trans "and a pressure of" %} {{ object.P_av }}
+<br>
+{% trans "This fluid will have a viscosity of" %} {{ viscosity }} [Pa &#x2022; s] 
+{% trans "and a density of" %} {{ density }} [kg/m^3]
+{% endblock content %}

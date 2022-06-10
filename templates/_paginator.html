@@ -1,0 +1,34 @@
+<input type="hidden" name="page" form="{{ pagination_form_id }}" id="page_input_id" value="{{ page_obj.number }}">
+<nav aria-label="Components pagination">
+    <ul class="pagination justify-content-end">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <button class="page-link" type="button" onclick="set_paginator_page(1);">&laquo;</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link" type="button" onclick="set_paginator_page({{ page_obj.previous_page_number }});">&lsaquo;</button>
+        </li>
+        {% endif %}
+        <li class="page-item">
+            <div class="input-group mb-3">
+                <input
+                    id="page_input_sel_id"
+                    type="number" class="form-control"
+                    aria-label="Page number"
+                    value="{{ page_obj.number }}"
+                    onchange="set_paginator_page(document.getElementById('page_input_sel_id').value);"
+                    style="width: 76px;"
+                >
+                <span class="input-group-text" id="n_pages_count_id">/{{ page_obj.paginator.num_pages }}</span>
+            </div>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <button class="page-link" type="button" onclick="set_paginator_page({{ page_obj.next_page_number }});">&rsaquo;</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link" type="button" onclick="set_paginator_page({{ page_obj.paginator.num_pages }});">&raquo;</button>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
