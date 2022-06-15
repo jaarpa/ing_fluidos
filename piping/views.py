@@ -1,13 +1,13 @@
 from typing import Any, Dict
 
 from django.urls import reverse
+from django.forms.models import model_to_dict
 from django.views.generic import CreateView, ListView, DetailView
-from django.views.generic import DeleteView
+from django.views.generic import UpdateView, DeleteView
 
-from CoolProp import CoolProp as CP
 
-from piping.models import Project
-from piping.forms import ProjectForm
+from piping.models import Project, ProjectAccessory
+from piping.forms import ProjectForm, ProjectAccessoryForm
 # Create your views here.
 
 
@@ -34,12 +34,32 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        temp = context["object"].T_av
-        pressure = context["object"].P_av
-        fluid = context["object"].fluid
-        context["viscosity"] = CP.PropsSI("V", "P", pressure, "T", temp, fluid)
-        context["density"] = CP.PropsSI("D", "P", pressure, "T", temp, fluid)
+        project = context["object"]
+        context["density"] = project.get_rho()
+        context["viscosity"] = project.get_mu()
+        context["accessories"] = ProjectAccessory.objects.filter(
+            project=project
+        )
+        intial_accesory = context["accessories"].order_by("id").last()
+        inital_values = {"project": project.id}
+        if intial_accesory:
+            inital_values.update({
+                "inner_diameter": intial_accesory.inner_diameter,
+                "material": intial_accesory.material
+            })
+        context["accessory_form"] = ProjectAccessoryForm(
+            initial=inital_values
+        )
+        context["update_project_form"] = ProjectForm(
+            initial=model_to_dict(project)
+        )
         return context
+
+
+class ProjectUpdateView(UpdateView):
+    model = Project
+    template_name = "generic_form.html"
+    form_class = ProjectForm
 
 
 class ProjectDeleteView(DeleteView):
@@ -49,3 +69,23 @@ class ProjectDeleteView(DeleteView):
 
     def get_success_url(self) -> str:
         return reverse(self.success_url)
+
+
+class ProjectAccessoryCreateView(CreateView):
+    model = ProjectAccessory
+    template_name = "generic_form.html"
+    form_class = ProjectAccessoryForm
+
+    def post(self, request, *args: Any, **kwargs: Any):
+        return super().post(request, *args, **kwargs)
+
+    def get_success_url(self) -> str:
+        return self.object.project.get_absolute_url()
+
+
+class ProjectAccessoryDeleteView(DeleteView):
+    model = ProjectAccessory
+    template_name = "generic_delete.html"
+
+    def get_success_url(self) -> str:
+        return self.object.project.get_absolute_url()

@@ -11,7 +11,20 @@ urlpatterns = [
         name="project_detail"
     ),
     path(
+        'project/<int:pk>/update/', views.ProjectUpdateView.as_view(),
+        name="update_project"
+    ),
+    path(
         'project/<int:pk>/delete/', views.ProjectDeleteView.as_view(),
         name="delete_project"
+    ),
+
+    path(
+        'project/accessory/add/',
+        views.ProjectAccessoryCreateView.as_view(), name="add_accessory"
+    ),
+    path(
+        'project/accessory/<int:pk>/delete/',
+        views.ProjectAccessoryDeleteView.as_view(), name="delete_accessory"
     ),
 ]

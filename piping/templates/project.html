@@ -1,11 +1,171 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
-{% trans "You selected" %} {{ object.fluid }}
-{% trans "at a mean temperature of" %} {{ object.get_T_C }} 
-{% trans "and a pressure of" %} {{ object.P_av }}
-<br>
-{% trans "This fluid will have a viscosity of" %} {{ viscosity }} [Pa &#x2022; s] 
-{% trans "and a density of" %} {{ density }} [kg/m^3]
+<div class="mb-2">
+
+    {% trans "You selected" %} {{ object.fluid }}
+    {% trans "at a mean temperature of" %} {{ object.T_av }} [°C] 
+    {% trans "a pressure of" %} {{ object.P_av }} [Pa]
+    {% trans "and a flux of" %} {{ object.flux }} [m^3/s]
+    <br>
+    {% trans "This fluid will have a viscosity of" %} {{ viscosity|floatformat:6 }} [Pa • s] 
+    {% trans "and a density of" %} {{ density|floatformat }} [kg/m^3]
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-warning float-end mb-3" data-bs-toggle="modal" data-bs-target="#modify_project_modal_id" title="{% trans "Modify project" %}">
+        <i class="bi bi-pencil-fill"></i>
+    </button>
+
+</div>
+
+<table class="table bg-dark text-white text-center table-hover" style="--bs-table-hover-color:white">
+    <thead>
+        <tr>
+            <th scope="col">{% trans "Accessory" %}</th>
+            <th scope="col">{% trans "Units" %}</th>
+            <th scope="col">Material</th>
+            <th scope="col">{% trans "Inner Diameter" %} [m]</th>
+            <th scope="col">{% trans "K" %} [-]</th>
+            <th scope="col">{% trans "Action" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for accessory in accessories %}
+        <tr>
+          <td>{{ accessory }}</td>
+          <td>{{ accessory.quantity }}</td>
+          <td>{{ accessory.material }}</td>
+          <td>{{ accessory.inner_diameter }}</td>
+          <td>{{ accessory.get_K|floatformat }}</td>
+          <td>
+              <form action="{% url 'piping:delete_accessory' pk=accessory.pk %}" method="post" onsubmit="return confirm('{% trans "Delete the accessory " %} {{ accessory }}');">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+              </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan=6>{% trans "No accessories yet" %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#add_accessory_modal_id" title="{% trans "Add an accessory" %}">
+    <i class="bi bi-plus-circle"></i>
+</button>
+
+
+<div class="card mx-auto text-bg-dark mb-3" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{% trans "Pressure drop" %}</h5>
+      <p class="card-text">{{ object.get_dPa|floatformat }} [Pa] </p>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_accessory_modal_id" tabindex="-1" aria-labelledby="add_accessory_modal_idLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add_accessory_modal_idLabel">{% trans "Add accessory" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'piping:add_accessory' %}" method="post" id="add_accessory_form_id">
+                    {% csrf_token %}
+                    {{ accessory_form|crispy }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                <button type="submit" class="btn btn-primary" form="add_accessory_form_id">{% trans "Add" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Update project-->
+<div class="modal fade" id="modify_project_modal_id" tabindex="-1" aria-labelledby="modify_project_modal_idLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modify_project_modal_idLabel">{% trans "Add accessory" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'piping:update_project' pk=project.pk %}" method="post" id="add_update_project_form_id">
+                    {% csrf_token %}
+                    {{ update_project_form|crispy }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                <button type="submit" class="btn btn-primary" form="add_update_project_form_id">{% trans "Update" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+    let accesory_select = document.getElementById("{{ accessory_form.accessory.auto_id }}")
+    let requires_angle = ["bend_rounded", "K_tilting_disk_check_valve_Crane"]
+    let requires_d2 = [
+        "diffuser_sharp", "contraction_sharp",
+        "K_angle_stop_check_valve_Crane", "K_angle_valve_Crane",
+        "K_globe_valve_Crane", "K_lift_check_valve_Crane",
+    ]
+    let requires_both = [
+        "K_ball_valve_Crane", "K_gate_valve_Crane", "K_plug_valve_Crane",
+    ]
+    let d2_inpt = document.getElementById("{{ accessory_form.inner_diameter2.auto_id }}")
+    let angle = document.getElementById("{{ accessory_form.angle.auto_id }}")
+    accesory_select.addEventListener(
+        'change',
+        function() {
+            d2_inpt.required = false;
+            d2_inpt.previousElementSibling.style["display"] = "none"
+            d2_inpt.style["display"] = "none"
+            angle.required = false;
+            angle.previousElementSibling.style["display"] = "none"
+            angle.style["display"] = "none"
+            if (requires_both.includes(accesory_select.value)) {
+                d2_inpt.required = true;
+                d2_inpt.previousElementSibling.style["display"] = "block"
+                d2_inpt.style["display"] = "block"
+                angle.required = true;
+                angle.previousElementSibling.style["display"] = "block"
+                angle.style["display"] = "block"
+    
+            } else if (requires_angle.includes(accesory_select.value)) {
+                angle.required = true;
+                angle.style["display"] = "block"
+                angle.previousElementSibling.style["display"] = "block"
+            } else if (requires_d2.includes(accesory_select.value)) {
+                d2_inpt.required = true;
+                d2_inpt.style["display"] = "block"
+                d2_inpt.previousElementSibling.style["display"] = "block"
+            }
+        },
+        false
+     );
+</script>
+{% endblock scripts %}
+
+
+{% comment %} # Swing check valve
+# https://www.youtube.com/watch?v=Ol8wQVniNqI
+# Lined plug
+# https://www.youtube.com/watch?v=0aM_L3Hu-MQ
+# Globe Valve
+# https://www.youtube.com/watch?v=SkzzII-gzEk
+# Gate valve
+# https://www.youtube.com/watch?v=iu55OzM8rUU {% endcomment %}
