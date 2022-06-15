@@ -1,0 +1,219 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-15 06:42+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: piping/forms.py:38 piping/forms.py:42 piping/forms.py:46
+msgid "This component requires a second inner diameter provided"
+msgstr "Este componente require un segundo diametro"
+
+#: piping/models.py:80
+msgid "Project name"
+msgstr "Nombre del proyecto"
+
+#: piping/models.py:82
+msgid "Fluid"
+msgstr "Fluido"
+
+#: piping/models.py:86
+msgid "Mean flux [m^3/s]"
+msgstr "Flujo medio [m^3/s]"
+
+#: piping/models.py:88
+msgid "Mean temperature [°C]"
+msgstr "Temperatura media [°C]"
+
+#: piping/models.py:90
+msgid "Mean Presssure [Pa]"
+msgstr "Presion media [Pa]"
+
+#: piping/models.py:93 piping/models.py:161
+msgid "Project"
+msgstr "Proyecto"
+
+#: piping/models.py:94
+msgid "Projects"
+msgstr "Proyectos"
+
+#: piping/models.py:151
+msgid " "
+msgstr " "
+
+#: piping/models.py:164 piping/templates/project.html:27
+msgid "Accessory"
+msgstr "Accesorio"
+
+#: piping/models.py:166
+msgid "Quantity [m] or units"
+msgstr "Cantidada [m] o unidades"
+
+#: piping/models.py:168
+msgid "Material"
+msgstr "Material"
+
+#: piping/models.py:174
+msgid "Inner diameter [m]"
+msgstr "Diámetro interno [m]"
+
+#: piping/models.py:176
+msgid "Inner diameter 2 [m]"
+msgstr "Diámetro interno 2 [m]"
+
+#: piping/models.py:179
+msgid "Angle [°]"
+msgstr "Ángulo [°]"
+
+#: piping/models.py:183
+msgid "Pipe Accessory"
+msgstr "Accesorio de tubería"
+
+#: piping/models.py:184
+msgid "Pipe Accesories"
+msgstr "Accesorios de tubería"
+
+#: piping/templates/project.html:9
+msgid "You selected"
+msgstr "Seleccionaste"
+
+#: piping/templates/project.html:10
+msgid "at a mean temperature of"
+msgstr "a una temperatura media de"
+
+#: piping/templates/project.html:11
+msgid "a pressure of"
+msgstr "a una presión de"
+
+#: piping/templates/project.html:12
+msgid "and a flux of"
+msgstr "y a un flujo de"
+
+#: piping/templates/project.html:14
+msgid "This fluid will have a viscosity of"
+msgstr "Este fluido tendrá una viscosidad de"
+
+#: piping/templates/project.html:15
+msgid "and a density of"
+msgstr "y una densdad de"
+
+#: piping/templates/project.html:18
+msgid "Modify project"
+msgstr "Modificar proyecto"
+
+#: piping/templates/project.html:28
+msgid "Units"
+msgstr "Unidades"
+
+#: piping/templates/project.html:30
+msgid "Inner Diameter"
+msgstr "Diámetro interno"
+
+#: piping/templates/project.html:31
+msgid "K"
+msgstr "K"
+
+#: piping/templates/project.html:32 piping/templates/project_list.html:14
+msgid "Action"
+msgstr "Acción"
+
+#: piping/templates/project.html:44
+msgid "Delete the accessory "
+msgstr "Eliminar accesorio"
+
+#: piping/templates/project.html:52
+msgid "No accessories yet"
+msgstr "Sin accesorios por ahora"
+
+#: piping/templates/project.html:59
+msgid "Add an accessory"
+msgstr "Agregar un accesorio"
+
+#: piping/templates/project.html:66
+msgid "Energy loss"
+msgstr "Pérdidas de energía"
+
+#: piping/templates/project.html:68
+msgid "Pressure drop"
+msgstr "Caida de presión"
+
+#: piping/templates/project.html:79 piping/templates/project.html:101
+msgid "Add accessory"
+msgstr "Agregar accesorio"
+
+#: piping/templates/project.html:89 piping/templates/project.html:111
+msgid "Close"
+msgstr "Cerrar"
+
+#: piping/templates/project.html:90
+msgid "Add"
+msgstr "Agregar"
+
+#: piping/templates/project.html:112
+msgid "Update"
+msgstr "Actualizar"
+
+#: piping/templates/project_list.html:12
+msgid "Name"
+msgstr "Nombre"
+
+#: piping/templates/project_list.html:13
+msgid "Pressure Drop"
+msgstr "Caída de presión"
+
+#: piping/templates/project_list.html:23
+msgid "See details"
+msgstr "Ver detalles"
+
+#: piping/templates/project_list.html:24
+msgid "Delete the project "
+msgstr "Eliminar proyecto "
+
+#: piping/templates/project_list.html:32
+msgid "No projects yet"
+msgstr "Sin proyectos aún"
+
+#: piping/templates/project_list.html:40 piping/templates/project_list.html:49
+msgid "Create project"
+msgstr "Crear proyecto"
+
+#: piping/templates/project_list.html:59
+msgid "Cerrar"
+msgstr "Cerrar"
+
+#: piping/templates/project_list.html:60
+msgid "Create"
+msgstr "Crear"
+
+#: templates/base.html:10
+msgid "Fluids engineering"
+msgstr "Ingeniería de Fluidos"
+
+#: templates/base.html:35
+msgid "Pressure losses"
+msgstr "Pérdidas de presión"
+
+#: templates/base.html:43
+msgid "Piping"
+msgstr "Tuberías"
+
+#: templates/base.html:51
+msgid "Packed beds"
+msgstr "Lechos empacados"
+
+#: templates/base.html:69
+msgid "Projecto final: Ingeniería de Fluidos"
+msgstr "Proyecto final: Ingeniería de Fluidos"

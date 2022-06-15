@@ -125,6 +125,9 @@ class Project(models.Model):
         V1 = accesories.first().get_V()
         return fluids_pkg.dP_from_K(k, rho=self.get_rho(), V=V1)
 
+    def get_sigma_f(self):
+        return self.get_dPa()/self.get_rho()
+
 
 def get_available_accessories():
     accessories = [

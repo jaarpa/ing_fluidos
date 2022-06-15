@@ -5,7 +5,6 @@
 
 {% block content %}
 <div class="mb-2">
-
     {% trans "You selected" %} {{ object.fluid }}
     {% trans "at a mean temperature of" %} {{ object.T_av }} [°C] 
     {% trans "a pressure of" %} {{ object.P_av }} [Pa]
@@ -63,8 +62,10 @@
 
 <div class="card mx-auto text-bg-dark mb-3" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">{% trans "Pressure drop" %}</h5>
-      <p class="card-text">{{ object.get_dPa|floatformat }} [Pa] </p>
+        <h5 class="card-title">{% trans "Energy loss" %}</h5>
+        <p class="card-text">{{ object.get_sigma_f|floatformat }} [J/kg] </p>
+        <h5 class="card-title">{% trans "Pressure drop" %}</h5>
+        <p class="card-text">{{ object.get_dPa|floatformat }} [Pa] </p>
     </div>
 </div>
 
