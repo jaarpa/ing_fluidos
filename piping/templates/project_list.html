@@ -18,7 +18,7 @@
         {% for project in object_list %}
         <tr>
           <td>{{ project.name }}</td>
-          <td>{{ project.get_pressure_drop }} [Pa]</td>
+          <td>{{ project.get_dPa }} [Pa]</td>
           <td>
               <a class="btn btn-outline-success" href="{{ project.get_absolute_url }}" title="{% trans "See details" %}"><i class="bi bi-clipboard2-data"></i></a>
               <form action="{% url 'piping:delete_project' pk=project.pk %}" method="post" onsubmit="return confirm('{% trans "Delete the project " %} {{ project.name }}');">
